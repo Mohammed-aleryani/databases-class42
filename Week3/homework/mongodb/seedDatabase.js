@@ -33,8 +33,7 @@ const seedDatabase = async (client) => {
 
       return {
         episode: EPISODE,
-        // Remove the extra quotation marks
-        title: TITLE.replaceAll('"', ""),
+        title: TITLE.replaceAll(/"|'/g, ''),
         elements: depictionElements,
       };
     });

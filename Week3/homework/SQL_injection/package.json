@@ -1,8 +1,8 @@
 {
-  "name": "homework",
+  "name": "sql-injection",
   "version": "1.0.0",
   "description": "",
-  "main": "authors.js",
+  "main": "SQL_injection.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
