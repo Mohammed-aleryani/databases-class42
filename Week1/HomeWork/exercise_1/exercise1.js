@@ -1,41 +1,47 @@
-import mysql from 'mysql';
+import mysql from "mysql";
 
-
-const con=mysql.createConnection({
-    host:"localhost",
-    user:"hyfuser",
-    password:"hyfpassword",
-    database:"meetup"
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "hyfuser",
+  password: "hyfpassword",
+  database: "meetup",
 });
 
-con.connect((err)=>{
-    if(err) throw err;
+con.connect((err) => {
+  if (err) throw err;
 });
 
-const executeSql=(sql)=>{
-    con.query(sql,(err)=>{
-        if(err) throw err;
-    });
-}
+const executeSql = (sql) => {
+  con.query(sql, (err) => {
+    if (err) throw err;
+  });
+};
 
+// executeSql("CREATE DATABASE meetup");
+executeSql("DROP TABLE IF EXISTS Meeting");
+executeSql("DROP TABLE IF EXISTS Invitee");
+executeSql("DROP TABLE IF EXISTS Room");
 
-let sql="CREATE DATABASE meetup";
-// executeSql(sql);
+executeSql(
+  "CREATE TABLE Invitee(invitee_no INT PRIMARY KEY,invitee_name varchar(100),invited_by varchar(100))"
+);
 
-sql="CREATE TABLE Invitee(invitee_no int,invitee_name varchar(100),invited_by varchar(100))"
-executeSql(sql);
+executeSql(
+  "CREATE TABLE Room(room_no INT PRIMARY KEY,room_name varchar(155),floor_number int)"
+);
 
-sql="CREATE TABLE Room(room_no int,room_name varchar(155),floor_number int)"
-executeSql(sql);
+executeSql(
+  "CREATE TABLE  Meeting(meeting_no INT AUTO_INCREMENT PRIMARY KEY,meeting_title varchar(155),starting_time DATETIME,time_ending DATETIME,room_no INT,invitee_no INT,FOREIGN KEY (room_no) REFERENCES Room(room_no) ON DELETE CASCADE, FOREIGN KEY (invitee_no) REFERENCES Invitee(invitee_no) ON DELETE CASCADE)"
+);
 
-sql="CREATE TABLE Meeting(meeting_no int,meeting_title varchar(155),starting_time char(50),time_ending char(50),room_no int)";
-executeSql(sql);
+executeSql(
+  "INSERT INTO Invitee VALUES(1,'John','Ali'),(2,'Arman','Ali'),(3,'Rob','Mohammed'),(4,'Tamer','Mick'),(5,'Ahmed','Mick')"
+);
 
-sql="INSERT INTO Invitee VALUES(1,'John','Ali'),(2,'Arman','Ali'),(3,'Rob','Mohammed'),(4,'Tamer','Mick'),(5,'Ahmed','Mick')";
-executeSql(sql);
+executeSql(
+  "INSERT INTO Room VALUES(1,'First meeting room',1),(2,'Seconde meeting room',1),(3,'Third meeting room',2),(4,'Fourth meeting room',2),(5,'Fifth meeting room',3)"
+);
 
-sql="INSERT INTO Room VALUES(1,'First meeting room',1),(2,'Seconde meeting room',1),(3,'Third meeting room',2),(4,'Fourth meeting room',2),(5,'Fifth meeting room',3)";
-executeSql(sql);
-
-sql="INSERT INTO Meeting VALUES(1,'Middle east','13:00','20:00',1),(1,'Hack your future','16:00','22:00',3),(3,'Meet and great','13:00','15:00',4),(4,'work shope','13:00','20:00',5),(5,'Middle east','17:30','22:00',3)";
-executeSql(sql);
+executeSql(
+  "INSERT INTO Meeting (meeting_title, starting_time, time_ending, room_no, invitee_no) VALUES ('Middle east', NOW(), NOW(), 1, 2), ('Hack your future', NOW(), NOW(), 3, 1), ('Meet and great', NOW(), NOW(), 4, 2), ('work shop', NOW(), NOW(), 5, 4), ('Middle east', NOW(), NOW(), 3, 1);"
+);
