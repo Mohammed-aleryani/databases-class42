@@ -17,7 +17,11 @@ const executeSql = (sql) => {
   });
 };
 
-// executeSql("CREATE DATABASE meetup");
+const meetingStarts="'2023-04-16 14:00:00'";
+const meetingEnds="'2023-04-16 16:30:00'";
+
+
+executeSql("CREATE DATABASE IF NOT EXISTS meetup");
 executeSql("DROP TABLE IF EXISTS Meeting");
 executeSql("DROP TABLE IF EXISTS Invitee");
 executeSql("DROP TABLE IF EXISTS Room");
@@ -43,5 +47,5 @@ executeSql(
 );
 
 executeSql(
-  "INSERT INTO Meeting (meeting_title, starting_time, time_ending, room_no, invitee_no) VALUES ('Middle east', NOW(), NOW(), 1, 2), ('Hack your future', NOW(), NOW(), 3, 1), ('Meet and great', NOW(), NOW(), 4, 2), ('work shop', NOW(), NOW(), 5, 4), ('Middle east', NOW(), NOW(), 3, 1);"
+  `INSERT INTO Meeting (meeting_title, starting_time, time_ending, room_no, invitee_no) VALUES ('Middle east', ${meetingStarts}, ${meetingEnds}, 1, 2), ('Hack your future', ${meetingStarts},${meetingEnds}, 3, 1), ('Meet and great',${meetingStarts}, ${meetingEnds}, 4, 2), ('work shop', ${meetingStarts}, ${meetingEnds}, 5, 4), ('Middle east', ${meetingStarts}, ${meetingEnds}, 3, 1);`
 );
